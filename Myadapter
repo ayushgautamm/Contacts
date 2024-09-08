@@ -1,0 +1,68 @@
+package com.example.contactsapp;
+
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.contactsapp.databinding.ContactListBinding;
+
+import java.util.ArrayList;
+
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ContactsViewHolder> {
+
+    private ArrayList<Contacts> contactList; 
+
+    public MyAdapter(ArrayList<Contacts> contactList) {  
+        this.contactList = contactList;
+    }
+
+    @NonNull
+    @Override
+    public ContactsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ContactListBinding contactListBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()),
+                R.layout.contact_list,
+                parent,
+                false
+        );
+        return new ContactsViewHolder(contactListBinding);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ContactsViewHolder holder, int position) {
+    
+        Contacts currentContact = contactList.get(position);  // Corrected here
+        holder.contactListBinding.setContacts(currentContact);
+    }
+
+    @Override
+    public int getItemCount() {
+      
+      if (contactList!=null){
+          return contactList.size();
+      }else{
+          return 0;
+      }
+    }
+
+    public void setContactList(ArrayList<Contacts> contactList) {
+        this.contactList = contactList;
+        // Inform the assoociated Rcycler view tht the underlying
+        // dataset has changed and the recycler view should be refresh
+        // itsw   view to reflect these changed
+
+        notifyDataSetChanged();
+    }
+
+    class ContactsViewHolder extends RecyclerView.ViewHolder {
+        private ContactListBinding contactListBinding;
+
+        public ContactsViewHolder(@NonNull ContactListBinding contactListBinding) {
+            super(contactListBinding.getRoot());
+            this.contactListBinding = contactListBinding;
+        }
+    }
+}

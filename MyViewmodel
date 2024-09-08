@@ -1,0 +1,34 @@
+package com.example.contactsapp;
+
+import android.app.Application;
+import android.hardware.lights.LightsManager;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import java.util.List;
+
+public class MyviewModel extends AndroidViewModel {
+
+    private Repository myRepository;
+    public LiveData<List<Contacts>> getAllContacts() {
+        return getAllContacts;
+    }
+    private LiveData<List<Contacts>>  getAllContacts;
+    public MyviewModel(@NonNull Application application) {
+        super(application);
+        this.myRepository = new Repository(application);
+        getAllContacts = myRepository.getAllContacts();
+    }
+
+
+
+    public void addnewContacts(Contacts contacts){
+        myRepository.addContacts(contacts);
+    }
+
+    public  void deleteContacts(Contacts contacts){
+        myRepository.deleteContacts(contacts);
+    }
+}
